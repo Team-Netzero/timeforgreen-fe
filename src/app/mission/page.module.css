@@ -4,6 +4,11 @@
     height: 100vh;
 }
 
+.description {
+  margin-bottom: 25px;
+  white-space: pre-line;
+}
+
 .body {
     padding: 0 20px;
     box-sizing: border-box;

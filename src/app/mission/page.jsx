@@ -8,6 +8,13 @@ import { useRouter } from "next/navigation";
 export default function MissonPage() {
   const router = useRouter();
   const [timeLeft, setTimeLeft] = useState(20 * 60 * 1000); // 20분
+  const [missionType, setMissionType] = useState(1); // 1~3
+
+  useEffect(() => {
+    // 미션 타입을 1~3 중에서 랜덤으로 설정
+    const randomType = Math.floor(Math.random() * 3) + 1;
+    setMissionType(randomType);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,16 +35,43 @@ export default function MissonPage() {
   const sec = Math.floor((timeLeft / 1000) % 60);
   const ms = timeLeft % 1000;
 
+  // 미션 정보 매핑
+  const missionInfo = {
+    1: {
+      img: "plug.avif",
+      title: "콘센트 플러그를 뽑아주세요!",
+      desc: `사용하지 않는 플러그, 환경에 남기는 발자국입니다.
+      가전제품을 꺼도 플러그가 꽂혀 있다면 전기는 계속 낭비됩니다.
+      작은 실천으로 지구를 지키세요.
+      지금 당장 플러그를 뽑아주세요.`,
+    },
+    2: {
+      img: "aircon.png",
+      title: "에어컨을 꺼주세요!",
+      desc: `여름철 에어컨 과다 사용은 환경 파괴의 주범입니다.
+      전원을 끄지 않으면 에어컨은 대기 전력을 계속 소모합니다.
+      작은 실천으로 지구를 지키세요.
+      지금 당장 에어컨 전원을 꺼주세요.`,
+    },
+    3: {
+      img: "light.png",
+      title: "전등을 꺼주세요!",
+      desc: `외출시 소등의 습관화는 지구를 위한 한 걸음입니다.
+      일상에서의 작은 실천이 큰 효과를 불러일으킵니다.
+      지금 당장 전등을 꺼주세요. `,
+    },
+  };
+
   return (
     <div className={styles.page}>
       <Header imgSrc="arrow_left.svg" title="미션 인증" />
       <div>
-        <img src="plug.avif" alt="" className={styles.picture} />
+        <img src={missionInfo[missionType].img} alt="" className={styles.picture} />
       </div>
       <div className={styles.body}>
         <div>
-          <div className={styles.misson}>콘센트 플러그를 뽑아주세요!</div>
-          <div className={styles.description}>설명설명설명</div>
+          <div className={styles.misson}>{missionInfo[missionType].title}</div>
+          <div className={styles.description}>{missionInfo[missionType].desc}</div>
         </div>
 
         <div className={styles.footer}>
