@@ -1,10 +1,12 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./TakePhoto.module.css";
 
 export default function PhotoPage() {
+  const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
@@ -57,28 +59,39 @@ export default function PhotoPage() {
   const uploadPhoto = async () => {
     if (!photo) return;
     setUploading(true);
+
     try {
       // dataURL → Blob
       const res = await fetch(photo);
       const blob = await res.blob();
-      // Blob → File (파일명 지정)
+      // Blob → File
       const file = new File([blob], fileName, { type: blob.type });
 
       const formData = new FormData();
       formData.append("file", file);
 
-      // 변경된 서버 엔드포인트
+      // 서버에 업로드
       const response = await axios.post(
         "http://20.41.122.250:8080/predict",
         formData,
         {
-          // Let Axios set the correct headers for FormData in the browser
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      console.log("Server response:", response.data);
-      alert("업로드 성공!");
+      const { result, score } = response.data as {
+        result: string;
+        score: number;
+      };
+      console.log("Server response:", result, score);
+
+      if (result === "true") {
+        // 플러그가 뽑혀 있으면 /room으로 이동
+        router.push("/room/1");
+      } else {
+        // 꽂혀 있으면 사용자에게 알림
+        alert("⚠️ 플러그가 꽂혀 있습니다. 방으로 이동하지 않습니다.");
+      }
     } catch (err: any) {
       console.error("Upload error:", err.response ?? err.message);
       alert("업로드 실패: " + (err.response?.data || err.message));
