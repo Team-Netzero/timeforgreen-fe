@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./page.module.css";
-import Room from "@/components/Room";
+import Room from "../components/Room";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
