@@ -8,7 +8,6 @@ export default function PhotoPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
 
-  // 카메라 초기화
   const initCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -22,7 +21,6 @@ export default function PhotoPage() {
     }
   };
 
-  // 마운트 시 카메라 켜고, 언마운트 시 트랙 정리
   useEffect(() => {
     initCamera();
     return () => {
@@ -33,7 +31,6 @@ export default function PhotoPage() {
     };
   }, []);
 
-  // 스냅샷 찍기
   const capture = () => {
     if (!videoRef.current || !canvasRef.current) return;
     const video = videoRef.current;
@@ -45,10 +42,8 @@ export default function PhotoPage() {
     setPhoto(canvas.toDataURL("image/jpeg"));
   };
 
-  // 재촬영
   const retry = () => {
     setPhoto(null);
-    // 이전 스트림 정리 후 재초기화
     const stream = videoRef.current?.srcObject;
     if (stream instanceof MediaStream) {
       stream.getTracks().forEach((t) => t.stop());
