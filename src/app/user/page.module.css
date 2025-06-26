@@ -29,6 +29,8 @@
   height: 10px;
   border-radius: 10px;
   background-color: #e0e0e0;
+  display: flex; /* 추가 */
+  overflow: hidden; /* 둥근 모서리 처리 */
 }
 .level {
   margin-bottom: 12px;
@@ -49,4 +51,25 @@
   position: absolute;
   width: 40px;
   height: auto;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 15px;
+  font-size: 14px;
+  align-items: center;
+}
+
+.legend_item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color_box {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
 }

@@ -77,26 +77,26 @@ export default function UserPage() {
           <div className={styles.sub_title} style={{ marginTop: "30px" }}>
             내가 지킨 나무
           </div>
-        </div>
-        <div className={styles.tree_container}>
           <div className={styles.tree_container}>
-            {Array.from({ length: treenumber }).map((_, i) => {
-              const left = Math.random() * 80 + 10; // 10% ~ 90% 범위
-              const top = Math.random() * 80 + 10; // 10% ~ 90% 범위
-              const imgNum = Math.floor(Math.random() * 15) + 1; // 이미지 이름: 1~5.png 등
-              return (
-                <img
-                  key={i}
-                  src={`${imgNum}.png`}
-                  alt="tree"
-                  className={styles.tree_image}
-                  style={{
-                    left: `${left}%`,
-                    top: `${top}%`,
-                  }}
-                />
-              );
-            })}
+            <div className={styles.tree_container}>
+              {Array.from({ length: treenumber }).map((_, i) => {
+                const left = Math.random() * 80 + 10; // 10% ~ 90% 범위
+                const top = Math.random() * 80 + 10; // 10% ~ 90% 범위
+                const imgNum = Math.floor(Math.random() * 15) + 1; // 이미지 이름: 1~5.png 등
+                return (
+                  <img
+                    key={i}
+                    src={`${imgNum}.png`}
+                    alt="tree"
+                    className={styles.tree_image}
+                    style={{
+                      left: `${left}%`,
+                      top: `${top}%`,
+                    }}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
