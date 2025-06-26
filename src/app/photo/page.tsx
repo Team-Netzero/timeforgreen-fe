@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import axios from "axios";
 import styles from "./TakePhoto.module.css";
 
 export default function PhotoPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string>("photo.jpg");
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const initCamera = async () => {
     try {
@@ -40,33 +43,6 @@ export default function PhotoPage() {
     canvas.height = video.videoHeight;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     setPhoto(canvas.toDataURL("image/jpeg"));
-    canvas.toBlob(
-      async (blob) => {
-        if (!blob) return;
-
-        // 3) FormData 에 파일 추가
-        const formData = new FormData();
-        // key 이름은 서버 API 스펙에 맞춰주세요. 예시로 'file' 사용
-        formData.append("file", blob, "capture.jpg");
-
-        try {
-          // 4) fetch 로 전송 (Content-Type 헤더는 자동 세팅)
-          const res = await fetch("http://20.41.122.250:8080/predict", {
-            method: "POST",
-            body: formData,
-          });
-          if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
-          }
-          const json = await res.json();
-          console.log("예측 결과:", json);
-        } catch (err) {
-          console.error("업로드 실패:", err);
-        }
-      },
-      "image/jpeg",
-      0.95 /* 화질(0~1) */
-    );
   };
 
   const retry = () => {
@@ -78,22 +54,37 @@ export default function PhotoPage() {
     initCamera();
   };
 
-  const sendPhoto = async () => {
+  const uploadPhoto = async () => {
     if (!photo) return;
-    // base64 → Blob 변환
-    const res = await fetch(photo);
-    const blob = await res.blob();
-    // File 객체로 변환 (여기서 파일 이름 지정)
-    const file = new File([blob], "my_photo.jpg", { type: "image/jpeg" });
+    setUploading(true);
+    try {
+      // dataURL → Blob
+      const res = await fetch(photo);
+      const blob = await res.blob();
+      // Blob → File (파일명 지정)
+      const file = new File([blob], fileName, { type: blob.type });
 
-    const formData = new FormData();
-    formData.append("file", file);
+      const formData = new FormData();
+      formData.append("file", file);
 
-    // 서버로 전송
-    await fetch("http://20.41.122.250:8080/predict", {
-      method: "POST",
-      body: formData,
-    });
+      // 변경된 서버 엔드포인트
+      const response = await axios.post(
+        "http://20.41.122.250:8080/predict",
+        formData,
+        {
+          // Let Axios set the correct headers for FormData in the browser
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      console.log("Server response:", response.data);
+      alert("업로드 성공!");
+    } catch (err: any) {
+      console.error("Upload error:", err.response ?? err.message);
+      alert("업로드 실패: " + (err.response?.data || err.message));
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -114,8 +105,27 @@ export default function PhotoPage() {
       ) : (
         <div className={styles.previewWrap}>
           <img src={photo} alt="촬영 결과" className={styles.preview} />
+
+          <div style={{ marginTop: 16 }}>
+            <label>
+              파일명:&nbsp;
+              <input
+                type="text"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+                style={{ width: 120 }}
+              />
+            </label>
+          </div>
+
           <div className={styles.btnGroup}>
-            <button className={styles.confirmBtn}>사진 선택하기</button>
+            <button
+              onClick={uploadPhoto}
+              className={styles.confirmBtn}
+              disabled={uploading}
+            >
+              {uploading ? "업로드 중…" : "사진 업로드"}
+            </button>
             <button onClick={retry} className={styles.retryBtn}>
               다시 촬영하기
             </button>
