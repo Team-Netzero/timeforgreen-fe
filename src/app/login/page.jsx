@@ -3,7 +3,7 @@
 import styles from "./page.module.css";
 import { useState } from "react";
 import { useRef } from "react";
-import login from "../../lib/login";
+import postData from "../../lib/post";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -15,9 +15,13 @@ export default function LoginPage() {
   async function handleLogin() {
     if (!id.current || !pw.current) return;
 
-    const isSuccess = await login(id.current.value, pw.current.value)
-    if (isSuccess) {
+    const res = await postData("auth/login", {username: id.current.value, password: pw.current.value})
+
+    if (!res) {
       router.push("/");
+    } else {
+      alert('error');
+      console.log(res);
     }
   }
 

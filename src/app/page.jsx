@@ -3,6 +3,8 @@
 import styles from "./page.module.css";
 import Room from "../components/Room";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import getData from "../lib/get";
 
 export default function Home() {
   const router = useRouter();
@@ -14,6 +16,15 @@ export default function Home() {
       '안녕', 'ㅇㅇ'
     ]
   }];
+
+  useEffect(() => {
+    async function get() {
+      const res = await getData("user/rooms");
+      console.log(res);
+    }
+
+    get();
+  }, []);
 
   return (
     <div className={styles.page}>

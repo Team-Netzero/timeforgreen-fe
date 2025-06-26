@@ -3,8 +3,8 @@
 import styles from "./page.module.css";
 import { useState } from "react";
 import { useRef } from "react";
-import login from "../../lib/login";
 import { useRouter } from "next/navigation";
+import postData from "../../lib/post";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -12,12 +12,15 @@ export default function SignupPage() {
   const id = useRef(null);
   const pw = useRef(null);
 
-  async function handleLogin() {
+  async function handleSignup() {
     if (!id.current || !pw.current) return;
 
-    const isSuccess = await login(id.current.value, pw.current.value)
-    if (isSuccess) {
-      router.push("/");
+    const res = await postData("auth/join", {createUserDto: { username: id.current.value, password: pw.current.value}})
+    if (!res) {
+      router.push("/login");
+    } else {
+      alert("error");
+      console.log(res);
     }
   }
 
@@ -53,7 +56,7 @@ export default function SignupPage() {
       </div>
       <button 
         className={styles.login_button}
-        onClick={handleLogin}
+        onClick={handleSignup}
       >
         가입하기
       </button>

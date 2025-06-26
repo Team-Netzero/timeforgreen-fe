@@ -1,29 +1,40 @@
-import styles from "./page.module.css";
-import Header from "../../components/Header";
+"use client"
 
-export default function Room() {
-  let roomname = "방제목";
-  let totalmission = 100;
-  let todaymission = 0;
-  let userimage = "";
-	let username = "park jaewon";
+import styles from "./page.module.css";
+import Header from "../../../components/Header";
+import getData from "../../../lib/get";
+import { useEffect } from "react";
+import { useState } from "react";
+
+export default function Room({ params }) {
+  const { id } = params;
+
+  const [roomName, setRoomName] = useState(null);
+  const [totMisson, setTotMisson] = useState(0);
+  const [todayMisson, setTodayMisson] = useState(0);
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    async function fetchRoom() {
+      
+    }
+
+    fetchRoom();
+  }, []);
+
   return (
     <div className={styles.container}>
-      <Header imgSrc="/arrow_left.svg" title={roomname} />
+      <Header imgSrc="/arrow_left.svg" title={roomName} />
       <div className={styles.roomWrapper}>
-        {/* <div className={styles.header}>
-          <img className={styles.backIcon} src="arrow-left.svg" />
-          <div className={styles.roomTitleWrapper}>
-            <div className={styles.roomTitle}>{roomname}</div>
-          </div>
-        </div> */}
         <div className={styles.missionTitleWrapper}>
           <div className={styles.missionTitle}>달성한 과제</div>
         </div>
 
         <div className={styles.missionStatusWrapper}>
             {/* 과제개수 받아오기 */}
-          <div className={styles.missionStatus}>여태껏 달성한 과제: {totalmission} | 오늘 달성한 과제: {todaymission}</div>
+          <div className={styles.missionStatus}>
+            여태껏 달성한 과제: {totMisson} | 오늘 달성한 과제: {todayMisson}
+          </div>
         </div>
 
         <div className={styles.graphArea}></div>
@@ -34,8 +45,7 @@ export default function Room() {
 
         {/* 멤버 리스트 */}
         <div className={styles.memberItem}>
-					{/* 유저 이미지 위치랑 유저 이름 받아오기 */}
-					<img className={styles.avatar} src={userimage}/>
+					<img className={styles.avatar} src={"hello.png"}/>
           <div className={styles.memberInfo}>
             <div className={styles.memberName}>{username}</div>
           </div>
