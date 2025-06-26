@@ -1,4 +1,5 @@
 import styles from "./page.module.css";
+import Header from "../../components/Header";
 
 export default function Room() {
   let roomname = "방제목";
@@ -8,15 +9,14 @@ export default function Room() {
 	let username = "park jaewon";
   return (
     <div className={styles.container}>
+      <Header imgSrc="/arrow_left.svg" title={roomname} />
       <div className={styles.roomWrapper}>
-        <div className={styles.header}>
+        {/* <div className={styles.header}>
           <img className={styles.backIcon} src="arrow-left.svg" />
           <div className={styles.roomTitleWrapper}>
-            {/* 방제목 받아오기 */}
             <div className={styles.roomTitle}>{roomname}</div>
           </div>
-        </div>
-
+        </div> */}
         <div className={styles.missionTitleWrapper}>
           <div className={styles.missionTitle}>달성한 과제</div>
         </div>
@@ -35,7 +35,7 @@ export default function Room() {
         {/* 멤버 리스트 */}
         <div className={styles.memberItem}>
 					{/* 유저 이미지 위치랑 유저 이름 받아오기 */}
-					<img className={styles.avatar} src= {userimage}/>
+					<img className={styles.avatar} src={userimage}/>
           <div className={styles.memberInfo}>
             <div className={styles.memberName}>{username}</div>
           </div>

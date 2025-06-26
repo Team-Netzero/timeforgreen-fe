@@ -1,8 +1,14 @@
 import styles from "./Room.module.css"
+import { useRouter } from "next/navigation";
 
 export default function Room({ room }) {
+  const router = useRouter();
+
   return (
-    <div className={styles.room}>
+    <div 
+      className={styles.room}
+      onClick={() => router.push("/room")}
+    >
       <div className={styles.icon}>
         {/* <img src="/test.png" className={styles.icon} /> */}
       </div>

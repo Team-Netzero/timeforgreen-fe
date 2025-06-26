@@ -1,14 +1,10 @@
 import styles from "./page.module.css";
+import Header from "../../components/Header";
 
 export default function UserPage() {
   return (
     <div>
-      <div className={styles.header}>
-        <img src="arrow_left.svg" className={styles.back_icon} />
-        <div className={styles.title}>
-          내 정보
-        </div>
-      </div>
+      <Header imgSrc="/arrow_left.svg" title="내 정보" />
       <div className={styles.body}>
         <div>
           <div className={styles.user_img}>

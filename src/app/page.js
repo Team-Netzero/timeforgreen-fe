@@ -40,6 +40,12 @@ export default function Home() {
           })}
         </div>
       </div>
+      <button 
+        className={styles.creation_button}
+        onClick={() => {router.push("/create")}}
+      >
+        <img src="/plus.svg" className={styles.plus_icon} />
+      </button>
     </div>
   );
 }

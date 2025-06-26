@@ -1,0 +1,16 @@
+.header {
+    display: flex;
+    align-items: center;
+    height: 65px;
+    padding: 0 20px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.title {
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+    font-weight: 600;
+    font-size: 17px;
+}

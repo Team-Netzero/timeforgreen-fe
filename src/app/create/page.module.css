@@ -1,0 +1,35 @@
+.body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.input_title {
+    border: none;
+    background-color: #F2F2F2;
+    padding: 14px 15px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.input_title:focus {
+    outline: none;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+}
+.create_button {
+    width: calc(100% - 40px);
+    border: none;
+    padding: 10px 0;
+    border-radius: 20px;
+    font-size: 16px;
+    background-color: black;
+    color: white;
+    position: absolute;
+    bottom: 20px;
+    margin: 0 20px;
+}
