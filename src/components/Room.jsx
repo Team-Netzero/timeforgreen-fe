@@ -1,32 +1,46 @@
-import styles from "./Room.module.css"
+"use client";
+
+import styles from "./Room.module.css";
 import { useRouter } from "next/navigation";
+import getData from "../lib/get";
+import { useState, useEffect } from "react";
 
 export default function Room({ room }) {
   const router = useRouter();
 
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function getUsers() {
+      const res = await getData(`room/${room.id}/users`);
+      setUsers(res);
+    }
+    
+    getUsers()
+  }, []);
+
   return (
     <div 
       className={styles.room}
-      onClick={() => router.push("/room")}
+      onClick={() => router.push(`room/${room.id}`)}
     >
       <div className={styles.icon}>
-        {/* <img src="/test.png" className={styles.icon} /> */}
       </div>
       <div>
         <div className={styles.roomName}>
-          {room.roomName}
+          {room.title}
         </div>
         <div className={styles.info}>
-          {room.participants.map((person, idx) => {
+          {users.map((user, idx) => {
             return (
-              <span key={person}>
+              <span key={user}>
                 {idx === 0 ? "" : ", "}
-                {person}
+                {user.username}
               </span>
             );
           })}
           <div>
-            {room.participants.length}명의 참여자
+            {users.length}명의 참여자
           </div>
         </div>
       </div>

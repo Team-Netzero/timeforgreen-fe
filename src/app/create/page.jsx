@@ -5,10 +5,23 @@ import Header from "../../components/Header";
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import postData from "../../lib/post";
 
 export default function CreatePage() {
-  const [value, setValue] = useState(null);
+  const [start, setStart] = useState(null);
+  const [end, setEnd] = useState(null);
+  const [title, setTitle] = useState("");
+  const username = localStorage.getItem("username");
+
+  async function createTeam() {
+    const res = await postData(`user/${username}/room`, {
+      createRoomDto: {
+        title: title,
+        allowNotificationAt: "1"
+      }
+    });
+  }
   
   return (
     <div>
@@ -16,6 +29,8 @@ export default function CreatePage() {
       <div className={styles.body}>
         <input 
           type="text" 
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className={styles.input_title} 
           placeholder="이름을 입력해주세요"
         />
@@ -29,22 +44,25 @@ export default function CreatePage() {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <TimePicker
               label="시작 시간"
-              value={value}
-              onChange={(newValue) => setValue(newValue)}
+              value={start}
+              onChange={(time) => setStart(time)}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <TimePicker
               label="종료 시간"
-              value={value}
-              onChange={(newValue) => setValue(newValue)}
+              value={end}
+              onChange={(time) => setEnd(time)}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
         </div>
       </div>
-      <button className={styles.create_button}>
+      <button 
+        className={styles.create_button}
+        onClick={createTeam}
+      >
         만들기
       </button>
     </div>
