@@ -1,8 +1,8 @@
 "use client"
 
 import styles from "./page.module.css";
-import Header from "../../components/Header";
-import getData from "../../lib/get";
+import Header from "../../../components/Header";
+import getData from "../../../lib/get";
 
 export default function Room() {
   let roomname = "방제목";

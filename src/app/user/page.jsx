@@ -1,10 +1,15 @@
+"use client";
+
 import styles from "./page.module.css";
 import Header from "../../components/Header";
+import { useEffect, useState } from "react";
+import postData from "../../lib/post";
 
 export default function UserPage() {
-  const plugMission = 12;
-  const airconMission = 7;
-  const lightMission = 2;
+  const [plugMission, setPlugMisson] = useState(0);
+  const [airconMission, setAirconMission] = useState(0);
+  const [lightMission, setLightMission] = useState(0);
+
   const allMission = plugMission + airconMission + lightMission;
 
   const plugPercent = (plugMission / allMission) * 100;
@@ -13,6 +18,25 @@ export default function UserPage() {
 
   const treeNumber = Math.floor(allMission / 3);
 
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    const name = localStorage.getItem("username");
+    setUsername(name);
+
+    async function fetchData() {
+      const res = await postData(`user/${username}/missions`);
+
+      for (let i = 0; i < res.length; i++) {
+        if (res[i] == AIR_CONDITIONER) setAirconMission(airconMission + 1);
+        else if (res[i] == LIGHT) setLightMission(lightMission + 1);
+        else setPlugMisson(plugMission + 1);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <Header imgSrc="/arrow_left.svg" title="내 정보" />
@@ -20,7 +44,7 @@ export default function UserPage() {
       <div className={styles.body}>
         <div>
           <div className={styles.user_img} />
-          <div className={styles.user_name}>유저이름</div>
+          <div className={styles.user_name}>{username}</div>
         </div>
 
         <div>
@@ -28,7 +52,7 @@ export default function UserPage() {
             <div
               style={{
                 width: `${plugPercent}%`,
-                backgroundColor: "#F2FF80",
+                backgroundColor: "#2D4F2B",
                 height: "100%",
                 borderTopLeftRadius: 10,
                 borderBottomLeftRadius: 10,
@@ -37,14 +61,14 @@ export default function UserPage() {
             <div
               style={{
                 width: `${airconPercent}%`,
-                backgroundColor: "#CEF67E",
+                backgroundColor: "#708A58",
                 height: "100%",
               }}
             />
             <div
               style={{
                 width: `${lightPercent}%`,
-                backgroundColor: "#8EF17E",
+                backgroundColor: "#FFB823",
                 height: "100%",
                 borderTopRightRadius: 10,
                 borderBottomRightRadius: 10,
@@ -56,21 +80,21 @@ export default function UserPage() {
             <div className={styles.legend_item}>
               <span
                 className={styles.color_box}
-                style={{ backgroundColor: "#F2FF80" }}
+                style={{ backgroundColor: "#2D4F2B" }}
               />
               플러그 뽑기: {plugMission}
             </div>
             <div className={styles.legend_item}>
               <span
                 className={styles.color_box}
-                style={{ backgroundColor: "#CEF67E" }}
+                style={{ backgroundColor: "#708A58" }}
               />
               냉난방기 전원 끄기: {airconMission}
             </div>
             <div className={styles.legend_item}>
               <span
                 className={styles.color_box}
-                style={{ backgroundColor: "#8EF17E" }}
+                style={{ backgroundColor: "#FFB823" }}
               />
               전등 끄기: {lightMission}
             </div>
