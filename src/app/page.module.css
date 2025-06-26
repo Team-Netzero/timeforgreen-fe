@@ -64,3 +64,8 @@
   width: 30px;
   height: 30px;
 }
+.rooms {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

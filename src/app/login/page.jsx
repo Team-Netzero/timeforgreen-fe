@@ -15,9 +15,10 @@ export default function LoginPage() {
   async function handleLogin() {
     if (!id.current || !pw.current) return;
 
-    const res = await postData("auth/login", {username: id.current.value, password: pw.current.value})
+    const res = await postData("auth/login", {username: id.current.value, password: pw.current.value});
 
     if (!res) {
+      localStorage.setItem("username", id.current.value);
       router.push("/");
     } else {
       alert('error');

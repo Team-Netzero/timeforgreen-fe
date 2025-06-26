@@ -3,24 +3,20 @@
 import styles from "./page.module.css";
 import Room from "../components/Room";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import getData from "../lib/get";
 
 export default function Home() {
   const router = useRouter();
 
-  const rooms = [{
-    id: "1",
-    roomName: "안녕세계",
-    participants: [
-      '안녕', 'ㅇㅇ'
-    ]
-  }];
+  const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
+    const username = localStorage.getItem("username");
+    console.log(username);
     async function get() {
-      const res = await getData("user/rooms");
-      console.log(res);
+      const res = await getData(`user/${username}/rooms`);
+      setRooms(res);
     }
 
     get();
@@ -43,8 +39,8 @@ export default function Home() {
           <img src="/search.png" className={styles.search_icon} />
           <input type="text" placeholder="검색" className={styles.search_input} />
         </div>
-        <div>
-          {rooms.map((room) => {
+        <div className={styles.rooms}>
+          {rooms && rooms.map((room) => {
             return (
               <Room key={room.id} room={room} />
             );
