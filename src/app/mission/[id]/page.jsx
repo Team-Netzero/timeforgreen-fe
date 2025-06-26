@@ -1,11 +1,12 @@
 "use client";
 
 import styles from "./page.module.css";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function MissonPage() {
+  const {id} = useParams();
   const router = useRouter(); // ← 추가
   const [timeLeft, setTimeLeft] = useState(20 * 60 * 1000);
   const [missionType, setMissionType] = useState(1);
@@ -65,7 +66,7 @@ export default function MissonPage() {
 
   // 인증하기 클릭 시 PhotoPage(/photo)로 이동
   const handleVerify = () => {
-    router.push("/photo");
+    router.push(`/photo/${id}`);
   };
 
   return (

@@ -6,10 +6,9 @@ import getData from "../../../lib/get";
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 
-export default function Room() {
+export default function Room({ params }) {
+  const { id } = params;
   const router = useRouter();
-  const params = useParams();
-  const id = params?.id;
 
   const [roomName, setRoomName] = useState(null);
   const [totMisson, setTotMisson] = useState(0);
@@ -30,11 +29,11 @@ export default function Room() {
     const now = Date.now();
 
     if (now >= missionTime && now <= finishtime.getTime()) {
-      router.push("/mission");
+      router.push(`/mission/${id}`);
     } else if (now < missionTime) {
       const delay = missionTime - now;
       const timer = setTimeout(() => {
-        router.push("/mission");
+        router.push(`/mission/${id}`);
       }, delay);
       return () => clearTimeout(timer);
     }

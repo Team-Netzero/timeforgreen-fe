@@ -1,7 +1,6 @@
 "use client";
-
 import { useRef, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./TakePhoto.module.css";
 
@@ -12,6 +11,8 @@ export default function PhotoPage() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>("photo.jpg");
   const [uploading, setUploading] = useState<boolean>(false);
+  const {id} = useParams();
+  const username = localStorage.getItem("username");
 
   const initCamera = async () => {
     try {
@@ -87,7 +88,23 @@ export default function PhotoPage() {
 
       if (result === "true") {
         // 플러그가 뽑혀 있으면 /room으로 이동
-        router.push("/room/1");
+
+        const username = this.username;
+        const createMissionDto = {
+          subject: "PLUG",
+          roomId: 1
+        };
+
+        axios.post(`/user/${username}/mission`, { createMissionDto: createMissionDto }, { withCredentials: true })
+          .then(res => {
+            console.log("Mission created!", res.data);
+          })
+          .catch(err => {
+            console.error(err);
+          });
+
+
+        router.push(`/room/${id}`);
       } else {
         // 꽂혀 있으면 사용자에게 알림
         alert("⚠️ 플러그가 꽂혀 있습니다. 방으로 이동하지 않습니다.");
