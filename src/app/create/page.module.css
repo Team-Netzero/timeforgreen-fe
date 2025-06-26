@@ -20,6 +20,11 @@
 .title {
     font-size: 18px;
     font-weight: 600;
+    margin-bottom: 5px;
+}
+.sub_title {
+    margin-bottom: 27px;
+    color: gray;
 }
 .create_button {
     width: calc(100% - 40px);
@@ -32,4 +37,9 @@
     position: absolute;
     bottom: 20px;
     margin: 0 20px;
+}
+
+.time_picker {
+    display: flex;
+    gap: 10px;
 }

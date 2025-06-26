@@ -3,7 +3,7 @@
 import styles from "./page.module.css";
 import { useState } from "react";
 import { useRef } from "react";
-import login from "@/lib/login";
+import login from "../../lib/login";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
