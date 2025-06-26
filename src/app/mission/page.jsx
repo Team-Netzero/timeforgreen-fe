@@ -1,10 +1,33 @@
+
+"use client";
+
 import styles from "./page.module.css";
 import Header from "../../components/Header";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function MissonPage() {
-  const min = 10;
-  const sec = 10;
-  const ms = 100;
+  const router = useRouter();
+  const [timeLeft, setTimeLeft] = useState(20 * 60 * 1000); // 20분
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          router.push("/room"); // 20분 끝나면 복귀
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1); // 1ms 단위
+
+    return () => clearInterval(timer);
+  }, [router]);
+
+  const min = Math.floor((timeLeft / 1000 / 60) % 60);
+  const sec = Math.floor((timeLeft / 1000) % 60);
+  const ms = timeLeft % 1000;
 
   return (
     <div className={styles.page}>
@@ -57,6 +80,7 @@ export default function MissonPage() {
           <button className={styles.verify_button}>
             인증하기
           </button>
+
         </div>
       </div>
     </div>
