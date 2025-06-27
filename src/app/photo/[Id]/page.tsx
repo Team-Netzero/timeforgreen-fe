@@ -4,15 +4,15 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./TakePhoto.module.css";
 
-export default function PhotoPage() {
+export default function PhotoPage({ params }) {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>("photo.jpg");
   const [uploading, setUploading] = useState<boolean>(false);
-  const {id} = useParams();
-  const username = localStorage.getItem("username");
+  const [username, setUsername] = useState("");
+  const { id } = params;
 
   const initCamera = async () => {
     try {
@@ -34,6 +34,9 @@ export default function PhotoPage() {
       if (stream instanceof MediaStream) {
         stream.getTracks().forEach((t) => t.stop());
       }
+      const name = localStorage.getItem("username");
+      setUsername(name);
+      console.log(id);
     };
   }, []);
 
@@ -88,8 +91,6 @@ export default function PhotoPage() {
 
       if (result === "true") {
         // 플러그가 뽑혀 있으면 /room으로 이동
-
-        const username = this.username;
         const createMissionDto = {
           subject: "PLUG",
           roomId: 1
@@ -103,8 +104,7 @@ export default function PhotoPage() {
             console.error(err);
           });
 
-
-        router.push(`/room/${id}`);
+        router.push("/");
       } else {
         // 꽂혀 있으면 사용자에게 알림
         alert("⚠️ 플러그가 꽂혀 있습니다. 방으로 이동하지 않습니다.");

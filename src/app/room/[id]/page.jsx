@@ -78,7 +78,7 @@ export default function Room() {
 
         {/* 멤버 리스트 */}
         <div className={styles.memberItem}>
-					{users.map(() => {
+					{users.map((user) => {
             return (
               <div className={styles.person_block}>
                 <div className={styles.avatar}>

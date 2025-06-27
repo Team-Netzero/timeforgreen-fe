@@ -32,7 +32,7 @@ export default function Room({ room }) {
           {room.title}
         </div>
         <div className={styles.info}>
-          {users.map((user, idx) => {
+          {users && users.map((user, idx) => {
             return (
               <span key={user}>
                 {idx === 0 ? "" : ", "}
