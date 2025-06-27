@@ -3,19 +3,38 @@
 import styles from "./page.module.css";
 import Header from "../../../components/Header";
 import getData from "../../../lib/get";
+import { useRouter, useParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function Room() {
   const router = useRouter();
-  const params = useParams();
-  const id = params?.id;
+
+  const { id } = useParams();
 
   const [roomName, setRoomName] = useState(null);
   const [totMisson, setTotMisson] = useState(0);
   const [todayMisson, setTodayMisson] = useState(0);
   const [username, setUsername] = useState(null);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // 랜덤한 미션 시작 시간 설정
+    async function fetch() {
+      const res = await getData(`room/${id}`);
+      setRoomName(res.title);
+      const name = localStorage.getItem("username");
+      setUsername(name);
+      const misson_today = await getData(`user/${name}/mission/today`);
+      setTodayMisson(misson_today.length);
+      const misson_all = await getData(`user/${name}/mission`);
+      setTotMisson(misson_all.length);
+      const user = await getData(`room/${id}/users`);
+      setUsers(user);
+    }
+
+    fetch();
+  }, []);
+
+  useEffect(() => {
     const begintime = new Date();
     begintime.setHours(12, 0, 0, 0);
 
@@ -40,21 +59,15 @@ export default function Room() {
 
   return (
     <div className={styles.container}>
-      <Header imgSrc="/arrow_left.svg" title={roomname} />
+      <Header imgSrc="/arrow_left.svg" title={roomName} />
       <div className={styles.roomWrapper}>
-        {/* <div className={styles.header}>
-          <img className={styles.backIcon} src="arrow-left.svg" />
-          <div className={styles.roomTitleWrapper}>
-            <div className={styles.roomTitle}>{roomname}</div>
-          </div>
-        </div> */}
         <div className={styles.missionTitleWrapper}>
           <div className={styles.missionTitle}>달성한 과제</div>
         </div>
 
         <div className={styles.missionStatusWrapper}>
             {/* 과제개수 받아오기 */}
-          <div className={styles.missionStatus}>여태껏 달성한 과제: {totalmission} | 오늘 달성한 과제: {todaymission}</div>
+          <div className={styles.missionStatus}>전체 달성한 과제: {totMisson} | 오늘 달성한 과제: {todayMisson}</div>
         </div>
 
         <div className={styles.graphArea}></div>
@@ -65,11 +78,18 @@ export default function Room() {
 
         {/* 멤버 리스트 */}
         <div className={styles.memberItem}>
-					{/* 유저 이미지 위치랑 유저 이름 받아오기 */}
-					<img className={styles.avatar} src={userimage}/>
-          <div className={styles.memberInfo}>
-            <div className={styles.memberName}>{username}</div>
-          </div>
+					{users.map(() => {
+            return (
+              <div className={styles.person_block}>
+                <div className={styles.avatar}>
+                  <img src="../user.png" alt="" className={styles.usericon} />
+                </div>
+                <div className={styles.memberInfo}>
+                  <div className={styles.memberName}>{username}</div>
+                </div>
+              </div>
+            );
+          })}
         </div>
         
       </div>

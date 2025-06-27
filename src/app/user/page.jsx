@@ -43,7 +43,9 @@ export default function UserPage() {
 
       <div className={styles.body}>
         <div>
-          <div className={styles.user_img} />
+          <div className={styles.user_img}>
+            <img src="user.png" alt="" className={styles.user_icon} />
+          </div>
           <div className={styles.user_name}>{username}</div>
         </div>
 

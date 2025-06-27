@@ -25,6 +25,7 @@ export default function Room({ room }) {
       onClick={() => router.push(`room/${room.id}`)}
     >
       <div className={styles.icon}>
+        <img src="leaf.png" alt="" className={styles.leaf} />
       </div>
       <div>
         <div className={styles.roomName}>

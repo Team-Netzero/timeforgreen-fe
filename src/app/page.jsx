@@ -32,6 +32,7 @@ export default function Home() {
           className={styles.user_button}
           onClick={() => {router.push("/user")}}
         >
+          <img src="user.png" alt="" className={styles.user_icon} />
         </div>
       </div>
       <div className={styles.body}>

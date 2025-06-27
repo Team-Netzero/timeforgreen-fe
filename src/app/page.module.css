@@ -39,10 +39,16 @@
 .user_button {
   height: 35px;
   width: 35px;
-  background-color: rgb(58, 152, 47);
   position: absolute;
   right: 20px;
   border-radius: 50px;;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user_icon {
+  height: 30px;
+  width: 30px;
 }
 .creation_button {
   background-color: black;

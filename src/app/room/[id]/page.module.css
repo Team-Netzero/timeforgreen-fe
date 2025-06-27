@@ -102,7 +102,7 @@
 
 /* 멤버 타이틀 */
 .memberTitleWrapper {
-  padding: 20px 16px 12px 16px;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -124,7 +124,7 @@
 /* 멤버 리스트 */
 .memberItem {
   background: #ffffff;
-  padding: 8px 16px;
+  padding: 8px 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -139,8 +139,13 @@
   border-radius: 28px;
   width: 56px;
   height: 56px;
-  object-fit: cover;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.usericon {
+  height: 30px;
+  width: 30px;
 }
 
 .memberInfo {
@@ -158,4 +163,10 @@
   line-height: 24px;
   font-weight: 500;
   align-self: stretch;
+}
+
+
+.person_block {
+  display: flex;
+  gap: 25px;
 }

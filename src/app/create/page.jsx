@@ -7,20 +7,29 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState, useEffect } from "react";
 import postData from "../../lib/post";
+import { useRouter } from "next/navigation";
 
 export default function CreatePage() {
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [title, setTitle] = useState("");
-  const username = localStorage.getItem("username");
+  const [username, setUsername] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const name = localStorage.getItem("username");
+    setUsername(name);
+  }, []);
 
   async function createTeam() {
     const res = await postData(`user/${username}/room`, {
       createRoomDto: {
         title: title,
-        allowNotificationAt: "1"
+        allowNotificationAt: `${start} ${end}`
       }
     });
+
+    router.push("/");
   }
   
   return (
