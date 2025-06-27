@@ -90,7 +90,7 @@ export default function PhotoPage({ params }) {
       };
       console.log("Server response:", result, score);
 
-      if (result === "true") {
+      if (result == "true") {
         // 플러그가 뽑혀 있으면 /room으로 이동
         const createMissionDto = {
           subject: "PLUG",
@@ -105,7 +105,7 @@ export default function PhotoPage({ params }) {
             console.error(err);
           });
 
-        router.push("/");
+        router.push(`/room/${id}`);
       } else {
         // 꽂혀 있으면 사용자에게 알림
         alert("⚠️ 플러그가 꽂혀 있습니다. 방으로 이동하지 않습니다.");
