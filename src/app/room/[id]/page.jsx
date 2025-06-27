@@ -25,7 +25,7 @@ export default function Room() {
       setUsername(name);
       const misson_today = await getData(`user/${name}/mission/today`);
       setTodayMisson(misson_today.length);
-      const misson_all = await getData(`user/${name}/mission`);
+      const misson_all = await getData(`user/${name}/missions`);
       setTotMisson(misson_all.length);
       const user = await getData(`room/${id}/users`);
       setUsers(user);

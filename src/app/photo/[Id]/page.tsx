@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
-import styles from "./TakePhoto.module.css";
+import styles from "./page.module.css";
 
 export default function PhotoPage({ params }) {
   const router = useRouter();
@@ -29,14 +29,15 @@ export default function PhotoPage({ params }) {
 
   useEffect(() => {
     initCamera();
+    
+    const name = localStorage.getItem("username");
+    setUsername(name);
+    console.log(id);
     return () => {
       const stream = videoRef.current?.srcObject;
       if (stream instanceof MediaStream) {
         stream.getTracks().forEach((t) => t.stop());
       }
-      const name = localStorage.getItem("username");
-      setUsername(name);
-      console.log(id);
     };
   }, []);
 
@@ -93,10 +94,10 @@ export default function PhotoPage({ params }) {
         // 플러그가 뽑혀 있으면 /room으로 이동
         const createMissionDto = {
           subject: "PLUG",
-          roomId: 1
+          roomId: id
         };
 
-        axios.post(`/user/${username}/mission`, { createMissionDto: createMissionDto }, { withCredentials: true })
+        axios.post(`http://localhost:50000/user/${username}/mission`, {createMissionDto: createMissionDto}, { withCredentials: true })
           .then(res => {
             console.log("Mission created!", res.data);
           })

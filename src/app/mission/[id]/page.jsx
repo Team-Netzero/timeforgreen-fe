@@ -12,7 +12,7 @@ export default function MissonPage() {
   const [missionType, setMissionType] = useState(1);
 
   useEffect(() => {
-    const randomType = Math.floor(Math.random() * 3) + 1;
+    const randomType = 1;
     setMissionType(randomType);
   }, []);
 

@@ -3,7 +3,7 @@
 import styles from "./page.module.css";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
-import postData from "../../lib/post";
+import getData from "../../lib/get";
 
 export default function UserPage() {
   const [plugMission, setPlugMisson] = useState(0);
@@ -12,9 +12,9 @@ export default function UserPage() {
 
   const allMission = plugMission + airconMission + lightMission;
 
-  const plugPercent = (plugMission / allMission) * 100;
-  const airconPercent = (airconMission / allMission) * 100;
-  const lightPercent = (lightMission / allMission) * 100;
+  const plugPercent = allMission == 0 ? 0 : (plugMission / allMission) * 100;
+  const airconPercent = allMission == 0 ? 0 : (airconMission / allMission) * 100;
+  const lightPercent = allMission == 0 ? 0 : (lightMission / allMission) * 100;
 
   const treeNumber = Math.floor(allMission / 3);
 
@@ -25,12 +25,16 @@ export default function UserPage() {
     setUsername(name);
 
     async function fetchData() {
-      const res = await postData(`user/${username}/missions`);
+      const res = await getData(`user/${name}/missions`);
 
       for (let i = 0; i < res.length; i++) {
-        if (res[i] == AIR_CONDITIONER) setAirconMission(airconMission + 1);
-        else if (res[i] == LIGHT) setLightMission(lightMission + 1);
-        else setPlugMisson(plugMission + 1);
+        const airCount = res.filter(r => r.subject === "AIR_CONDITIONER").length;
+        const lightCount = res.filter(r => r.subject === "LIGHT").length;
+        const plugCount = res.length - airCount - lightCount;
+
+        setAirconMission(airCount);
+        setLightMission(lightCount);
+        setPlugMisson(plugCount);
       }
     }
 
@@ -105,7 +109,7 @@ export default function UserPage() {
           <div className={styles.sub_title}>내가 지킨 나무</div>
 
           <div className={styles.tree_container}>
-            {Array.from({ length: treeNumber }).map((_, i) => {
+            {Array.from({ length: (plugMission + airconMission + lightMission) }).map((_, i) => {
               const left = Math.random() * 70 + 10; // 10% ~ 80%
               const top = Math.random() * 70 + 10; // 10% ~ 80%
               const imgNum = Math.floor(Math.random() * 15) + 1;
