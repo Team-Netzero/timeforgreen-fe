@@ -3,7 +3,7 @@
 import styles from "./page.module.css";
 import Header from "../../../components/Header";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 export default function MissonPage() {
   const {id} = useParams();
@@ -40,7 +40,7 @@ export default function MissonPage() {
 
   const missionInfo = {
     1: {
-      img: "plug.avif",
+      img: "../plug.avif",
       title: "콘센트 플러그를 뽑아주세요!",
       desc: `사용하지 않는 플러그, 환경에 남기는 발자국입니다.
 가전제품을 꺼도 플러그가 꽂혀 있다면 전기는 계속 낭비됩니다.
@@ -48,7 +48,7 @@ export default function MissonPage() {
 지금 당장 플러그를 뽑아주세요.`,
     },
     2: {
-      img: "aircon.png",
+      img: "../aircon.png",
       title: "에어컨을 꺼주세요!",
       desc: `여름철 에어컨 과다 사용은 환경 파괴의 주범입니다.
 전원을 끄지 않으면 에어컨은 대기 전력을 계속 소모합니다.
@@ -56,7 +56,7 @@ export default function MissonPage() {
 지금 당장 에어컨 전원을 꺼주세요.`,
     },
     3: {
-      img: "light.png",
+      img: "../light.png",
       title: "전등을 꺼주세요!",
       desc: `외출시 소등의 습관화는 지구를 위한 한 걸음입니다.
 일상에서의 작은 실천이 큰 효과를 불러일으킵니다.
@@ -71,7 +71,7 @@ export default function MissonPage() {
 
   return (
     <div className={styles.page}>
-      <Header imgSrc="arrow_left.svg" title="미션 인증" />
+      <Header imgSrc="../arrow_left.svg" title="미션 인증" />
       <div>
         <img
           src={missionInfo[missionType].img}
