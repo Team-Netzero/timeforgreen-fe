@@ -112,22 +112,6 @@ NEXT_PUBLIC_API_URL=your_api_url_here
 - Prettier를 통한 코드 포맷팅 (권장)
 - TypeScript 지원 (선택적)
 
-## 🤝 기여하기
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
-
-## 📞 문의
-
-프로젝트에 대한 문의사항이 있으시면 이슈를 생성해 주세요.
-
 ---
 
 **TimeForGreen** - 친환경 생활을 위한 소셜 플랫폼 🌱
